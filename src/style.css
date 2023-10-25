@@ -10,7 +10,7 @@
   
   h1 {
     margin-top: 0;
-    font-size: 22px;
+    font-size: 44px;
   }
   
   h2 {
@@ -60,15 +60,15 @@
     background: #fff;
     border: 1px solid #999;
     float: left;
-    font-size: 24px;
+    font-size: 55px;
     font-weight: bold;
     line-height: 34px;
-    height: 34px;
+    height: 120px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 34px;
+    width: 120px;
   }
   
   .board-row:after {
@@ -82,10 +82,39 @@
   }
   .game {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+
   }
-  
+  .game-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .game-row {
+    display: flex;
+  }
+
   .game-info {
     margin-left: 20px;
   }
   
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    text-align: center;
+    width: 150px; /* Adjust the width as needed */
+  }
+  
+  .standard-text {
+    font-size: 14px;
+    font-weight: normal;
+  }
+  
+  .bold-text {
+    font-size: 16px;
+    font-weight: bold;
+  }

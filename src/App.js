@@ -94,23 +94,33 @@ function Game() {
     }
 
     return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+      <li key={move} style={{ listStyleType: "none" }}>
+        <button className="button standard-text" onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
   });
 
   return (
+ 
     <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      <div className="game-title">
+        <h1>Tic-Tac-Toe</h1>
       </div>
+      
+      <div className="game-row">
+        
+        <div className="game-board">
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        </div>
 
-      <div className="game-info">
-          {/*Sort Ascending/Descending button and funtionality added*/}
-          <p>{isDescending ? moves.slice().reverse() : moves}</p>
-        <button onClick={toggleMovesOrder}>Sort {!isDescending ? 'Descending' : 'Ascending' }</button>
+        <div className="game-info">
+            {/*Sort Ascending/Descending button and funtionality added*/}
+            <p>{isDescending ? moves.slice().reverse() : moves}</p>
+          <button className="button bold-text" onClick={toggleMovesOrder}>Sort {!isDescending ? 'Descending' : 'Ascending' }</button>
+        </div>
+      
       </div>
+      
     </div>
   );
 }
