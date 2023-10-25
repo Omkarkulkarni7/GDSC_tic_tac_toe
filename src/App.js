@@ -59,6 +59,7 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
+
 function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]); //nested array like this [[null,null,...]]
   const [currentMove, setCurrentMove] = useState(0);
@@ -75,6 +76,12 @@ function Game() {
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }
+
+  // Set the state of the of moves history list to ascending/descending order  
+  const [isDescending, setIsDescending] = useState(false);
+  const toggleMovesOrder = () => {
+    setIsDescending(!isDescending);
+  };
 
   //here-in  the squares argument goes through each element of history, and the move argument goes through each array index: 0, 1, 2, …. (In most cases, you’d need the actual array elements, but to render a list of moves you will only need indexes.)
   const moves = history.map((squares, move) => {
@@ -100,11 +107,14 @@ function Game() {
       </div>
 
       <div className="game-info">
-        <ol>{moves}</ol>
+          {/*Sort Ascending/Descending button and funtionality added*/}
+          <p>{isDescending ? moves.slice().reverse() : moves}</p>
+        <button onClick={toggleMovesOrder}>Sort {!isDescending ? 'Descending' : 'Ascending' }</button>
       </div>
     </div>
   );
 }
+
 
 function calculateWinner(squares) {
   const lines = [
