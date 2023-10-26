@@ -59,6 +59,7 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
+
 function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]); //nested array like this [[null,null,...]]
   const [currentMove, setCurrentMove] = useState(0);
@@ -76,6 +77,12 @@ function Game() {
     setCurrentMove(nextMove);
   }
 
+  // Set the state of the of moves history list to ascending/descending order  
+  const [isDescending, setIsDescending] = useState(false);
+  const toggleMovesOrder = () => {
+    setIsDescending(!isDescending);
+  };
+
   //here-in  the squares argument goes through each element of history, and the move argument goes through each array index: 0, 1, 2, …. (In most cases, you’d need the actual array elements, but to render a list of moves you will only need indexes.)
   const moves = history.map((squares, move) => {
     let description;
@@ -87,24 +94,37 @@ function Game() {
     }
 
     return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+      <li key={move} style={{ listStyleType: "none" }}>
+        <button className="button standard-text" onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
   });
 
   return (
+ 
     <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      <div className="game-title">
+        <h1>Tic-Tac-Toe</h1>
       </div>
+      
+      <div className="game-row">
+        
+        <div className="game-board">
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        </div>
 
-      <div className="game-info">
-        <ol>{moves}</ol>
+        <div className="game-info">
+            {/*Sort Ascending/Descending button and funtionality added*/}
+            <p>{isDescending ? moves.slice().reverse() : moves}</p>
+          <button className="button bold-text" onClick={toggleMovesOrder}>Sort {!isDescending ? 'Descending' : 'Ascending' }</button>
+        </div>
+      
       </div>
+      
     </div>
   );
 }
+
 
 function calculateWinner(squares) {
   const lines = [
