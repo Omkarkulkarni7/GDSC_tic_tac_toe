@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Square({ value, onSquareClick }) {
   return (
@@ -10,20 +10,27 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+function Board({ xIsNext, squares, onPlay, setPlayer1, setPlayer2}) {
   /*   const [xisNext, setXIsNext] = useState(true); //by default the first move is X
   const [squares, setSquares] = useState(Array(9).fill(null)); //null,O,null,X,.. this is a masked array a duplicate shallow copy of the original array
  */
-
   const winner = calculateWinner(squares);
   let status;
+  
+  useEffect(()=>{
+    if(winner === "X"){
+      setPlayer1((e)=>e+1);
+    }
+    else if(winner === "O"){
+      setPlayer2((e)=>e+1);
+    } 
+  },[setPlayer1,setPlayer2,winner]);
 
   if (winner) {
     status = "Winner is " + winner;
   } else {
     status = "Next Player is : " + (xIsNext ? "X" : "O");
   }
-
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) return; //to avoid overwrite
 
@@ -62,6 +69,8 @@ function Board({ xIsNext, squares, onPlay }) {
 function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]); //nested array like this [[null,null,...]]
   const [currentMove, setCurrentMove] = useState(0);
+  const [player1, setPlayer1] = useState(0);
+  const [player2, setPlayer2] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -87,20 +96,24 @@ function Game() {
     }
 
     return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
-      </li>
+        <li key={move}>
+          <button onClick={() => jumpTo(move)}>{description}</button>
+        </li>
     );
   });
 
   return (
     <div className="game">
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} setPlayer1={setPlayer1} setPlayer2={setPlayer2}/>
       </div>
 
       <div className="game-info">
         <ol>{moves}</ol>
+      </div>
+      <div>
+        <ul>Player 1 Wins : {player1}</ul>
+        <ul>Player 2 Wins : {player2}</ul>
       </div>
     </div>
   );
